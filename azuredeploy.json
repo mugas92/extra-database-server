@@ -1,0 +1,77 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "String",
+			 "defaultValue": "centralus"
+        },
+        "serverName": {
+            "type": "String",
+			"defaultValue": "serverdb112"
+        },
+        "skuCapacity": {
+            "type": "Int",
+			"defaultValue": 4
+        },
+        "skuFamily": {
+            "type": "String",
+			"defaultValue": "Gen5"
+        },
+        "skuName": {
+            "type": "String",
+			"defaultValue": "GP_Gen5_4"
+        },
+        "skuSizeMB": {
+            "type": "Int",
+			"defaultValue": 102400
+			
+        },
+        "createMode": {
+            "type": "String",
+			"defaultValue": "Replica"
+        },
+        "sourceServerId": {
+            "value": "String",
+			"defaultValue": "/subscriptions/02b61957-4a28-418b-a2d9-12d7f81a0844/resourceGroups/sentia/providers/Microsoft.DBforMySQL/servers/serverdb111"
+        },
+        "skuTier": {
+            "type": "String",
+			"defaultValue": "GeneralPurpose"
+        },
+        "backupRetentionDays": {
+            "type": "Int",
+			"defaultValue": 7
+        },
+        "geoRedundantBackup": {
+            "type": "String",
+			 "defaultValue": "Disabled"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.DBforMySQL/servers",
+            "apiVersion": "2017-12-01-preview",
+            "name": "[parameters('serverName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "[parameters('skuName')]",
+                "tier": "[parameters('skuTier')]",
+                "capacity": "[parameters('skuCapacity')]",
+                "size": "[parameters('skuSizeMB')]",
+                "family": "[parameters('skuFamily')]"
+            },
+            "kind": "",
+            "properties": {
+                "createMode": "[parameters('createMode')]",
+                "sourceServerId": "[parameters('sourceServerId')]",
+                "storageProfile": {
+                    "storageMB": "[parameters('skuSizeMB')]",
+                    "backupRetentionDays": "[parameters('backupRetentionDays')]",
+                    "geoRedundantBackup": "[parameters('geoRedundantBackup')]"
+                }
+            }
+        }
+    ]
+}
